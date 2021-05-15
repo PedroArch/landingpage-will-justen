@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
+import { Review } from 'types/api'
+import { getImageUrl } from 'utils/getImagaUrl'
 
 import * as S from './styles'
 
 type Props = {
-  id: number
-  name: string
-  image: string
-  description: string
+  id: number;
+  name: string,
+  photo: string;
+  text:  string;
 }
 
-const ReviewCard: React.FC<Props> = ({ id, name, image, description }) => {
+
+const ReviewCard: React.FC<Props> = ({  name, photo, text, id}) => {
   useEffect(() => {
     const texts = document.querySelectorAll('p.description')
 
@@ -31,16 +34,8 @@ const ReviewCard: React.FC<Props> = ({ id, name, image, description }) => {
     <S.Card>
       <S.User>
         <S.Image>
-          <source
-            srcSet={require(`@images/reviews/${image}?webp`)}
-            type="image/webp"
-          />
-          <source
-            srcSet={require(`@images/reviews/${image}`)}
-            type="image/jpg"
-          />
           <img
-            src={require(`@images/reviews/${image}`)}
+            src={getImageUrl(photo)}
             loading="lazy"
             alt={name}
           />
@@ -49,7 +44,7 @@ const ReviewCard: React.FC<Props> = ({ id, name, image, description }) => {
       </S.User>
       <S.Text>
         <input type="checkbox" id={`review-${id}`} />
-        <p className="description">{description}</p>
+        <p className="description">{text}</p>
         <label className="label-more" htmlFor={`review-${id}`}>
           Ver tudo
         </label>
